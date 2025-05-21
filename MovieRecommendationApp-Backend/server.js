@@ -2,16 +2,17 @@
 
 require('dotenv').config();
 const express = require('express');
-require('./src/config/db.js'); // Veritabanı bağlantısını test etmek için
+require('./src/config/db.js'); 
 
 const app = express();
-
-// JSON body parser middleware'i (POST isteklerindeki JSON verisini okumak için ileride lazım olacak)
 app.use(express.json()); 
 
 // Rotaları Tanımla
-const quizRoutes = require('./src/routes/quizRoutes.js'); // quizRoutes'u import et
-app.use('/api/quiz', quizRoutes); // /api/quiz ön ekiyle quizRoutes'u kullan
+const quizRoutes = require('./src/routes/quizRoutes.js');
+app.use('/api/quiz', quizRoutes);
+
+const authRoutes = require('./src/routes/authRoutes.js'); // <<--- YENİ SATIR ---<<
+app.use('/api/auth', authRoutes);                        // <<--- YENİ SATIR ---<<
 
 const PORT = process.env.PORT || 3000;
 
