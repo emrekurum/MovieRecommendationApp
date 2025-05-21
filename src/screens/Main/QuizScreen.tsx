@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { fetchQuizQuestions, Question, Answer as QuizAnswer } from '../services/quizService'; // Servis dosyamız ve tipler
+import { fetchQuizQuestions, Question, Answer as QuizAnswer } from '../../services/quizService'; // Servis dosyamız ve tipler
 
 // Kullanıcının verdiği cevapları saklamak için bir tip
 interface UserAnswer {

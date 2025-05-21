@@ -1,29 +1,68 @@
-/**
- * App.tsx
- * Test için QuizScreen'i gösterir.
- */
+// App.tsx
+import React, { useState, useEffect }
+from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import AuthNavigator from './src/navigation/AuthNavigator';
+import MainAppNavigator from './src/navigation/MainAppNavigator';
+import { ActivityIndicator, View, StyleSheet } from 'react-native'; // Yükleme göstergesi için
 
-import React from 'react';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import QuizScreen from './src/screens/QuizScreen'; // QuizScreen'i import ediyoruz
+// Bu UserProvider veya AuthContext gibi bir yerden gelecek
+// Şimdilik basit bir state ile simüle ediyoruz
+const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // null: başlangıçta kontrol ediliyor
 
-function App(): React.JSX.Element {
-  // Arka plan stilini basit tutalım
-  const backgroundStyle = {
-    flex: 1, // SafeAreaView'ın tüm alanı kaplaması için
-    backgroundColor: '#f0f0f0', // QuizScreen'in arka planıyla uyumlu veya genel bir renk
+  // Uygulama açıldığında kullanıcının giriş durumunu kontrol et (örneğin AsyncStorage'dan token oku)
+  // Bu useEffect şimdilik sadece bir gecikme ile durumu değiştiriyor
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      // Gerçek uygulamada burada AsyncStorage'dan token okunur ve doğrulanır
+      // Örneğin: const userToken = await AsyncStorage.getItem('userToken');
+      // if (userToken) { setIsAuthenticated(true); } else { setIsAuthenticated(false); }
+      setTimeout(() => {
+        setIsAuthenticated(false); // Başlangıçta giriş yapılmamış olarak ayarla
+      }, 1000); // 1 saniyelik yapay yükleme süresi
+    };
+    checkAuthStatus();
+  }, []);
+
+  // LoginScreen'den çağrılacak fonksiyon (şimdilik App.tsx içinde)
+  // Daha sonra bunu bir AuthContext ile yöneteceğiz
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true);
   };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={'dark-content'} backgroundColor={backgroundStyle.backgroundColor} />
-      <QuizScreen />
-    </SafeAreaView>
-  );
-}
+  // HomeScreen'den çağrılacak fonksiyon (şimdilik App.tsx içinde)
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
 
-// Eğer QuizScreen kendi içinde SafeAreaView veya flex:1 kullanmıyorsa,
-// App seviyesinde sarmalamak iyi olabilir. QuizScreen'imiz zaten ScrollView ile
-// ve kendi container stiliyle geliyor, bu yüzden bu yeterli olacaktır.
+
+  if (isAuthenticated === null) {
+    // Giriş durumu henüz kontrol ediliyor, bir yükleme göstergesi göster
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return (
+    <NavigationContainer>
+      {isAuthenticated ? (
+        <MainAppNavigator /* onLogout={handleLogout} // Prop olarak geçilebilir */ />
+      ) : (
+        <AuthNavigator /* onLoginSuccess={handleLoginSuccess} // Prop olarak geçilebilir */ />
+      )}
+    </NavigationContainer>
+  );
+};
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default App;
