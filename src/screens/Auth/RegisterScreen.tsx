@@ -1,23 +1,26 @@
 // src/screens/Auth/RegisterScreen.tsx
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React from 'react'; // useState, TextInput vb. eklenecek
+import { View, Text, StyleSheet, Button } // TextInput, Alert eklenecek
+from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../../navigation/AuthNavigator';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Register'>;
 
-const RegisterScreen: React.FC<Props> = ({ navigation, route }) => { // route'u props'a ekle
-  const { onLoginSuccess } = route.params; // onLoginSuccess'ı route.params'tan al
+const RegisterScreen: React.FC<Props> = ({ navigation, route }) => {
+  const { onLoginSuccess } = route.params;
+
+  // TODO: Kayıt için state'ler (username, email, password, loading, error) eklenecek
+  // TODO: handleRegister fonksiyonu eklenecek (backend'e istek atacak)
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Kayıt Ol Ekranı</Text>
+      {/* TODO: Kayıt formu (TextInput'lar) buraya eklenecek */}
       <Button
         title="Giriş Ekranına Git"
-        // Login'e navigate ederken onLoginSuccess parametresini de gönder
         onPress={() => navigation.navigate('Login', { onLoginSuccess: onLoginSuccess })}
       />
-      {/* TODO: Kayıt formu ve mantığı buraya eklenecek */}
     </View>
   );
 };

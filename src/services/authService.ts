@@ -10,8 +10,7 @@ export interface User {
   user_id: number;
   username: string;
   email: string;
-  created_at?: string; // created_at backend'den gelebilir
-  // Diğer kullanıcı bilgileri eklenebilir
+  created_at?: string;
 }
 
 export interface LoginResponse {
@@ -30,19 +29,18 @@ export const loginUser = async (credentials: LoginCredentials): Promise<LoginRes
       body: JSON.stringify(credentials),
     });
 
-    const data: LoginResponse = await response.json(); // Önce JSON'a çevir
+    const data: LoginResponse = await response.json();
 
     if (!response.ok) {
-      // API'den gelen hata mesajını kullan (eğer varsa)
       throw new Error(data.message || `HTTP error! status: ${response.status}`);
     }
     
     return data;
   } catch (error: any) {
     console.error('Giriş servisinde hata:', error.message);
-    throw error; // Hatanın LoginScreen tarafından yakalanması için tekrar fırlat
+    throw error;
   }
 };
 
-// TODO: Kayıt (registerUser) servisi de buraya eklenebilir
-// TODO: Token saklama ve alma (AsyncStorage) işlemleri için yardımcı fonksiyonlar eklenebilir
+// TODO: Register servisi de eklenecek
+// export const registerUser = async (userData) => { ... };

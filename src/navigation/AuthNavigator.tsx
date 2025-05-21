@@ -6,7 +6,7 @@ import RegisterScreen from '../screens/Auth/RegisterScreen';
 
 export type AuthStackParamList = {
   Login: { onLoginSuccess: () => void };
-  Register: { onLoginSuccess: () => void }; // RegisterScreen'in de Login'e geçerken bu prop'a ihtiyacı olacak
+  Register: { onLoginSuccess: () => void };
 };
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
@@ -21,12 +21,12 @@ const AuthNavigator: React.FC<AuthNavigatorProps> = ({ onLoginSuccess }) => {
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        initialParams={{ onLoginSuccess: onLoginSuccess }} // onLoginSuccess'ı initialParams olarak geçir
+        initialParams={{ onLoginSuccess: onLoginSuccess }}
       />
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
-        initialParams={{ onLoginSuccess: onLoginSuccess }} // RegisterScreen'e de initialParams olarak geçir
+        initialParams={{ onLoginSuccess: onLoginSuccess }}
       />
     </Stack.Navigator>
   );
