@@ -1,5 +1,4 @@
-// src/screens/QuizScreen.tsx
-
+// src/screens/Main/QuizScreen.tsx
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -11,24 +10,27 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { fetchQuizQuestions, Question, Answer as QuizAnswer } from '../../services/quizService'; // Servis dosyamız ve tipler
+// quizService'den Question ve Answer tiplerini doğru import ettiğimizden emin olalım
+import { fetchQuizQuestions, Question, Answer as QuizServiceAnswer } from '../../services/quizService';
 
-// Kullanıcının verdiği cevapları saklamak için bir tip
 interface UserAnswer {
   questionId: number;
   chosenAnswerId: number;
 }
 
-const QuizScreen: React.FC = () => {
+// QuizScreen için navigasyon props'larını da ekleyebiliriz (eğer gerekirse)
+// import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+// import { MainAppStackParamList } from '../../navigation/MainAppNavigator';
+// type Props = NativeStackScreenProps<MainAppStackParamList, 'Quiz'>;
+
+const QuizScreen: React.FC = (/*props: Props*/) => { // Şimdilik props almıyor
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [selectedAnswers, setSelectedAnswers] = useState<UserAnswer[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Simüle edilmiş kullanıcı ID'si (normalde giriş yapmış kullanıcıdan alınır)
-  // Bu ID, cevapları backend'e gönderirken gerekecek.
-  const userId = 1; // Örnek, bunu AsyncStorage'dan veya global state'ten almalısın
+  const userId = 1; // Placeholder
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -48,12 +50,10 @@ const QuizScreen: React.FC = () => {
         setIsLoading(false);
       }
     };
-
     loadQuestions();
   }, []);
 
   const handleAnswerSelect = (questionId: number, answerId: number) => {
-    // Mevcut soruya daha önce cevap verilmişse güncelle, yoksa ekle
     const newAnswers = selectedAnswers.filter(
       (ans) => ans.questionId !== questionId,
     );
@@ -62,7 +62,6 @@ const QuizScreen: React.FC = () => {
   };
 
   const handleNextQuestion = () => {
-    // Kullanıcının mevcut soruya cevap verdiğinden emin ol
     const currentQuestionId = questions[currentQuestionIndex]?.questionId;
     const hasAnsweredCurrent = selectedAnswers.some(
       (ans) => ans.questionId === currentQuestionId,
@@ -76,7 +75,6 @@ const QuizScreen: React.FC = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      // Test bitti, sonuçları işle veya gönder
       handleSubmitQuiz();
     }
   };
@@ -86,14 +84,11 @@ const QuizScreen: React.FC = () => {
       Alert.alert('Uyarı', `Lütfen tüm soruları cevaplayın. (${selectedAnswers.length}/${questions.length} cevaplandı)`);
       return;
     }
-    // TODO: Cevapları backend'e gönder (POST /api/quiz/submit)
-    // Bu kısım için quizService.ts'e yeni bir fonksiyon eklenecek.
     console.log('Gönderilecek Cevaplar:', { userId, answers: selectedAnswers });
     Alert.alert(
       'Test Tamamlandı!',
-      'Cevaplarınız kaydedildi. Sonuçlar yakında gösterilecek.', // Gerçek sonuçlar API'den gelecek
+      'Cevaplarınız kaydedildi. Sonuçlar yakında gösterilecek.',
     );
-    // Örnek: navigation.navigate('QuizResults', { results: ... });
   };
 
   if (isLoading) {
@@ -109,7 +104,7 @@ const QuizScreen: React.FC = () => {
     return (
       <View style={styles.centered}>
         <Text style={styles.errorText}>Hata: {error}</Text>
-        <Button title="Tekrar Dene" onPress={() => { /* loadQuestions() çağırılabilir, state'i sıfırla */ }} />
+        <Button title="Tekrar Dene" onPress={() => { /* loadQuestions(); */ }} />
       </View>
     );
   }
@@ -134,7 +129,7 @@ const QuizScreen: React.FC = () => {
       </Text>
       <View style={styles.card}>
         <Text style={styles.questionText}>{currentQuestion.questionText}</Text>
-        {currentQuestion.answers.map((answer: QuizAnswer) => (
+        {currentQuestion.answers.map((answer: QuizServiceAnswer) => ( // QuizServiceAnswer kullandık
           <TouchableOpacity
             key={answer.answerId}
             style={[
@@ -150,7 +145,7 @@ const QuizScreen: React.FC = () => {
       <Button
         title={currentQuestionIndex < questions.length - 1 ? 'Sonraki Soru' : 'Testi Bitir'}
         onPress={handleNextQuestion}
-        disabled={!currentSelectedAnswerId} // Cevap seçilmeden sonraki soruya geçilemesin
+        disabled={!currentSelectedAnswerId}
       />
     </ScrollView>
   );

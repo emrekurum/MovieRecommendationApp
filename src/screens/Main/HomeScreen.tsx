@@ -2,20 +2,22 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { MainAppStackParamList } from '../../navigation/MainAppNavigator'; // Bu tipi birazdan oluşturacağız
+import { MainAppStackParamList } from '../../navigation/MainAppNavigator';
 
 type Props = NativeStackScreenProps<MainAppStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  // const { onLogout } = route.params; // Eğer App.tsx'ten prop olarak onLogout gelirse
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Ana Ekran</Text>
       <Text>Giriş başarılı!</Text>
       <Button
         title="Quiz'e Git"
-        onPress={() => navigation.navigate('Quiz')} // QuizScreen'i MainAppNavigator'a ekleyeceğiz
+        onPress={() => navigation.navigate('Quiz')}
       />
-       {/* TODO: Çıkış yapma butonu ve mantığı */}
+      {/* <Button title="Çıkış Yap" onPress={onLogout} /> // Örnek çıkış butonu */}
     </View>
   );
 };
