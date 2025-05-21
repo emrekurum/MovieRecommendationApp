@@ -1,16 +1,21 @@
-// App.tsx
-import React from 'react'; // useState ve useEffect artık AuthContext'te yönetiliyor
+// App.tsx (veya src/App.tsx)
+
+// Eğer 'react-native-gesture-handler' import'unu index.js'e eklediyseniz,
+// burada tekrar eklemenize gerek yok. Ama zarar da vermez.
+// Önemli olan en az bir yerde ve uygulamanın en başında olmasıdır.
+// import 'react-native-gesture-handler'; 
+
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import AuthNavigator from './src/navigation/AuthNavigator';
-import MainAppNavigator from './src/navigation/MainAppNavigator';
+import AuthNavigator from './src/navigation/AuthNavigator'; // './src/...' veya '../src/...' yolunu kendi yapınıza göre ayarlayın
+import MainAppNavigator from './src/navigation/MainAppNavigator'; // './src/...' veya '../src/...'
 import { ActivityIndicator, View, StyleSheet, StatusBar } from 'react-native';
-import { AuthProvider, useAuth } from './src/context/AuthContext'; // AuthProvider ve useAuth'u import et
+import { AuthProvider, useAuth } from './src/context/AuthContext'; // './src/...' veya '../src/...'
 
-// AppContent, AuthContext'e erişebilmek için ayrı bir bileşen
 const AppContent: React.FC = () => {
-  const { isAuthenticated, isLoading } = useAuth(); // Context'ten değerleri al
+  const { isAuthenticated, isLoading } = useAuth();
 
-  if (isLoading) { // Başlangıçtaki token kontrolü için yükleme göstergesi
+  if (isLoading) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -22,9 +27,9 @@ const AppContent: React.FC = () => {
     <>
       <StatusBar barStyle={isAuthenticated ? "light-content" : "dark-content" } />
       {isAuthenticated ? (
-        <MainAppNavigator /* onLogout={logout} // logout fonksiyonunu context'ten alıp prop olarak geçebiliriz */ />
+        <MainAppNavigator />
       ) : (
-        <AuthNavigator /* onLoginSuccess artık context üzerinden yönetilecek */ />
+        <AuthNavigator />
       )}
     </>
   );
@@ -32,7 +37,7 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <AuthProvider> {/* Tüm uygulamayı AuthProvider ile sarmala */}
+    <AuthProvider>
       <NavigationContainer>
         <AppContent />
       </NavigationContainer>
