@@ -4,11 +4,12 @@ import { View, Text, StyleSheet, Button, TextInput, Alert, ActivityIndicator } f
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../../navigation/AuthNavigator';
 import { loginUser } from '../../services/authService';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage'; // Token saklamak için
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const LoginScreen: React.FC<Props> = ({ navigation, route }) => {
+  // route.params'tan onLoginSuccess'ı al
   const { onLoginSuccess } = route.params;
 
   const [email, setEmail] = useState<string>('');
@@ -30,8 +31,12 @@ const LoginScreen: React.FC<Props> = ({ navigation, route }) => {
       // await AsyncStorage.setItem('userToken', response.token);
       // await AsyncStorage.setItem('userData', JSON.stringify(response.user));
       
+      // App.tsx'teki durumu güncellemek için onLoginSuccess'ı çağır
       if (onLoginSuccess) {
         onLoginSuccess();
+      } else {
+        // Bu durum olmamalı ama bir yedek olarak
+        Alert.alert('Giriş Başarılı', 'Ana ekrana yönlendiriliyorsunuz (App.tsx güncellemesi gerekiyor).');
       }
 
     } catch (err: any) {
@@ -69,7 +74,7 @@ const LoginScreen: React.FC<Props> = ({ navigation, route }) => {
       <View style={styles.spacer} />
       <Button
         title="Hesabın yok mu? Kayıt Ol"
-        onPress={() => navigation.navigate('Register', { onLoginSuccess: onLoginSuccess })}
+        onPress={() => navigation.navigate('Register')}
         color="#841584"
       />
     </View>

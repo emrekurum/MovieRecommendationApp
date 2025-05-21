@@ -1,27 +1,27 @@
 // src/services/authService.ts
 import { AUTH_API_URL } from '../config/apiConfig';
 
-export interface LoginCredentials {
+// ... (LoginCredentials, User, LoginResponse arayüzleri burada zaten var) ...
+
+// Kayıt için gönderilecek veri arayüzü
+export interface RegisterCredentials {
+  username: string;
   email: string;
   password: string;
 }
 
-export interface User {
-  user_id: number;
-  username: string;
-  email: string;
-  created_at?: string;
-}
-
-export interface LoginResponse {
+// Kayıt işlemi için API'den dönebilecek yanıt (backend'inize göre uyarlayın)
+export interface RegisterResponse {
   message: string;
-  token: string;
-  user: User;
+  user?: User; // Backend'den kullanıcı bilgisi dönüyorsa
 }
 
-export const loginUser = async (credentials: LoginCredentials): Promise<LoginResponse> => {
+// ... (loginUser fonksiyonu burada zaten var) ...
+
+// Yeni Kullanıcı Kayıt Servisi
+export const registerUser = async (credentials: RegisterCredentials): Promise<RegisterResponse> => {
   try {
-    const response = await fetch(`${AUTH_API_URL}/login`, {
+    const response = await fetch(`${AUTH_API_URL}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,18 +29,18 @@ export const loginUser = async (credentials: LoginCredentials): Promise<LoginRes
       body: JSON.stringify(credentials),
     });
 
-    const data: LoginResponse = await response.json();
+    const data: RegisterResponse = await response.json();
 
     if (!response.ok) {
+      // API'den gelen hata mesajını kullan (eğer varsa)
       throw new Error(data.message || `HTTP error! status: ${response.status}`);
     }
     
     return data;
   } catch (error: any) {
-    console.error('Giriş servisinde hata:', error.message);
-    throw error;
+    console.error('Kayıt servisinde hata:', error.message);
+    // Hatanın RegisterScreen tarafından yakalanması için tekrar fırlat
+    // veya burada spesifik bir hata nesnesi döndür
+    throw new Error(error.message || 'Kayıt sırasında bilinmeyen bir hata oluştu.');
   }
 };
-
-// TODO: Register servisi de eklenecek
-// export const registerUser = async (userData) => { ... };
