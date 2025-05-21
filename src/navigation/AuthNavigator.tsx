@@ -4,9 +4,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
 
+// Rota parametre tiplerini tanımla
 export type AuthStackParamList = {
   Login: { onLoginSuccess: () => void };
-  Register: { onLoginSuccess: () => void };
+  Register: { onLoginSuccess: () => void }; // RegisterScreen de bu parametreyi alacak
 };
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
@@ -26,7 +27,7 @@ const AuthNavigator: React.FC<AuthNavigatorProps> = ({ onLoginSuccess }) => {
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
-        initialParams={{ onLoginSuccess: onLoginSuccess }}
+        initialParams={{ onLoginSuccess: onLoginSuccess }} // RegisterScreen'e de parametre olarak geç
       />
     </Stack.Navigator>
   );
