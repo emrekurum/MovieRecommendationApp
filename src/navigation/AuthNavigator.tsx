@@ -4,30 +4,27 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
 
-// Rota parametre tiplerini tanımla
+// Rota parametre tiplerini güncelle: Artık onLoginSuccess parametresine ihtiyaçları yok.
 export type AuthStackParamList = {
-  Login: { onLoginSuccess: () => void };
-  Register: { onLoginSuccess: () => void }; // RegisterScreen de bu parametreyi alacak
+  Login: undefined;
+  Register: undefined;
 };
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
-interface AuthNavigatorProps {
-  onLoginSuccess: () => void;
-}
-
-const AuthNavigator: React.FC<AuthNavigatorProps> = ({ onLoginSuccess }) => {
+// AuthNavigator artık onLoginSuccess prop'unu almıyor.
+const AuthNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        initialParams={{ onLoginSuccess: onLoginSuccess }}
+        // initialParams artık gerekli değil, LoginScreen context'i kullanacak
       />
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
-        initialParams={{ onLoginSuccess: onLoginSuccess }} // RegisterScreen'e de parametre olarak geç
+        // initialParams artık gerekli değil
       />
     </Stack.Navigator>
   );

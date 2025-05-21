@@ -1,42 +1,16 @@
 // App.tsx
-import React, { useState, useEffect } from 'react';
+import React from 'react'; // useState ve useEffect artık AuthContext'te yönetiliyor
 import { NavigationContainer } from '@react-navigation/native';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import MainAppNavigator from './src/navigation/MainAppNavigator';
 import { ActivityIndicator, View, StyleSheet, StatusBar } from 'react-native';
-// import AsyncStorage from '@react-native-async-storage/async-storage'; // Daha sonra eklenecek
+import { AuthProvider, useAuth } from './src/context/AuthContext'; // AuthProvider ve useAuth'u import et
 
-const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+// AppContent, AuthContext'e erişebilmek için ayrı bir bileşen
+const AppContent: React.FC = () => {
+  const { isAuthenticated, isLoading } = useAuth(); // Context'ten değerleri al
 
-  // Uygulama açıldığında kullanıcının giriş durumunu kontrol et
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      // Gerçek uygulamada burada AsyncStorage'dan token okunur ve doğrulanır
-      // const userToken = await AsyncStorage.getItem('userToken');
-      // if (userToken) { setIsAuthenticated(true); } else { setIsAuthenticated(false); }
-      setTimeout(() => { // Simülasyon için
-        setIsAuthenticated(false); // Başlangıçta giriş yapılmamış olarak ayarla
-      }, 1000);
-    };
-    checkAuthStatus();
-  }, []);
-
-  const handleLoginSuccess = () => {
-    console.log('Giriş başarılı App.tsx, isAuthenticated true olarak ayarlanıyor.');
-    setIsAuthenticated(true);
-    // TODO: Token'ı burada AsyncStorage'a kaydet
-    // try { await AsyncStorage.setItem('userToken', token); } catch (e) { ... }
-  };
-
-  const handleLogout = () => { // Bu fonksiyon MainAppNavigator'a prop olarak geçilebilir
-    console.log('Çıkış yapıldı App.tsx, isAuthenticated false olarak ayarlanıyor.');
-    setIsAuthenticated(false);
-    // TODO: Token'ı AsyncStorage'dan sil
-    // try { await AsyncStorage.removeItem('userToken'); } catch (e) { ... }
-  };
-
-  if (isAuthenticated === null) {
+  if (isLoading) { // Başlangıçtaki token kontrolü için yükleme göstergesi
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -45,14 +19,24 @@ const App: React.FC = () => {
   }
 
   return (
-    <NavigationContainer>
+    <>
       <StatusBar barStyle={isAuthenticated ? "light-content" : "dark-content" } />
       {isAuthenticated ? (
-        <MainAppNavigator /* onLogout={handleLogout} */ />
+        <MainAppNavigator /* onLogout={logout} // logout fonksiyonunu context'ten alıp prop olarak geçebiliriz */ />
       ) : (
-        <AuthNavigator onLoginSuccess={handleLoginSuccess} />
+        <AuthNavigator /* onLoginSuccess artık context üzerinden yönetilecek */ />
       )}
-    </NavigationContainer>
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider> {/* Tüm uygulamayı AuthProvider ile sarmala */}
+      <NavigationContainer>
+        <AppContent />
+      </NavigationContainer>
+    </AuthProvider>
   );
 };
 
@@ -61,7 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5' // Yükleme ekranı için arka plan
+    backgroundColor: '#f5f5f5'
   },
 });
 
