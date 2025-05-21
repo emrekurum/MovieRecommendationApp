@@ -5,7 +5,15 @@
 // Android emülatörü için genellikle 'http://10.0.2.2:PORT_NUMARASI' kullanılır.
 // iOS simülatörü ve fiziksel cihazlar (aynı ağda ise) için 'http://localhost:PORT_NUMARASI' veya bilgisayarının ağdaki IP adresi kullanılabilir.
 // Backend sunucun 3001 portunda çalışıyordu.
-const API_BASE_URL = 'http://localhost:3001/api/quiz'; // iOS Simülatörü / Fiziksel Cihaz (localhost)
+// src/services/quizService.ts
+
+// ÖRNEK: Android emülatör için doğru ayar:
+// const API_BASE_URL = 'http://localhost:3001/api/quiz'; // YORUM SATIRI YAP
+const API_BASE_URL = 'http://10.0.2.2:3001/api/quiz'; // YORUM SATIRINI KALDIR
+
+// VEYA iOS simülatörü için doğru ayar:
+// const API_BASE_URL = 'http://10.0.2.2:3001/api/quiz'; // YORUM SATIRI YAP
+// const API_BASE_URL = 'http://localhost:3001/api/quiz'; // YORUM SATIRINI KALDIR // iOS Simülatörü / Fiziksel Cihaz (localhost)
 // const API_BASE_URL = 'http://10.0.2.2:3001/api/quiz'; // Android Emülatörü için
 
 
