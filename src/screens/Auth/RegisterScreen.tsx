@@ -11,13 +11,15 @@ import {
   ScrollView 
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../../navigation/AuthNavigator';
-import { registerUser } from '../../services/authService'; // registerUser servisini import et
+import { AuthStackParamList } from '../../navigation/AuthNavigator'; // Bu hala doğru
+import { registerUser } from '../../services/authService';
+// useAuth'u import etmeye gerek yok, çünkü kayıt sonrası sadece Login'e yönlendiriyoruz.
+// Login ekranı kendi context'ini kullanarak giriş yapacak.
 
+// Props tipi artık onLoginSuccess'ı route.params'ta beklemiyor
 type Props = NativeStackScreenProps<AuthStackParamList, 'Register'>;
 
-const RegisterScreen: React.FC<Props> = ({ navigation, route }) => {
-  const { onLoginSuccess } = route.params; // Login'e geçerken lazım olacak
+const RegisterScreen: React.FC<Props> = ({ navigation /*, route*/ }) => { // route'u artık onLoginSuccess için kullanmıyoruz
 
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -41,7 +43,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation, route }) => {
       const response = await registerUser({ username, email, password });
       console.log('Kayıt yanıtı:', response);
       Alert.alert('Kayıt Başarılı!', response.message || 'Kullanıcı başarıyla kaydedildi. Lütfen giriş yapın.');
-      navigation.navigate('Login', { onLoginSuccess: onLoginSuccess }); // Kayıt sonrası Login ekranına yönlendir
+      navigation.navigate('Login'); // Artık parametre geçmiyoruz
     } catch (err: any) {
       setError(err.message || 'Kayıt sırasında bir hata oluştu.');
       Alert.alert('Kayıt Başarısız', err.message || 'Kayıt sırasında bir hata oluştu.');
@@ -85,7 +87,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation, route }) => {
         <View style={styles.spacer} />
         <Button
           title="Zaten hesabın var mı? Giriş Yap"
-          onPress={() => navigation.navigate('Login', { onLoginSuccess: onLoginSuccess })}
+          onPress={() => navigation.navigate('Login')} // Artık parametre geçmiyoruz
           color="#841584"
         />
       </View>
@@ -93,6 +95,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation, route }) => {
   );
 };
 
+// Stiller aynı kalabilir...
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
