@@ -9,7 +9,11 @@
 
 // ÖRNEK: Android emülatör için doğru ayar:
 // const API_BASE_URL = 'http://localhost:3001/api/quiz'; // YORUM SATIRI YAP
-const API_BASE_URL = 'http://10.0.2.2:3001/api/quiz'; // YORUM SATIRINI KALDIR
+// src/services/quizService.ts
+import { QUIZ_API_URL } from '../config/apiConfig'; // Değiştirildi
+
+// ... (fetchQuizQuestions fonksiyonu içinde `${API_BASE_URL}/questions` yerine `${QUIZ_API_URL}/questions` kullan)
+// Örneğin: const response = await fetch(`${QUIZ_API_URL}/questions`); // YORUM SATIRINI KALDIR
 
 // VEYA iOS simülatörü için doğru ayar:
 // const API_BASE_URL = 'http://10.0.2.2:3001/api/quiz'; // YORUM SATIRI YAP

@@ -1,46 +1,34 @@
 // App.tsx
-import 'react-native-gesture-handler';
-import React, { useState, useEffect }
-from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import MainAppNavigator from './src/navigation/MainAppNavigator';
-import { ActivityIndicator, View, StyleSheet } from 'react-native'; // Yükleme göstergesi için
+import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
-// Bu UserProvider veya AuthContext gibi bir yerden gelecek
-// Şimdilik basit bir state ile simüle ediyoruz
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // null: başlangıçta kontrol ediliyor
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-  // Uygulama açıldığında kullanıcının giriş durumunu kontrol et (örneğin AsyncStorage'dan token oku)
-  // Bu useEffect şimdilik sadece bir gecikme ile durumu değiştiriyor
   useEffect(() => {
     const checkAuthStatus = async () => {
-      // Gerçek uygulamada burada AsyncStorage'dan token okunur ve doğrulanır
-      // Örneğin: const userToken = await AsyncStorage.getItem('userToken');
-      // if (userToken) { setIsAuthenticated(true); } else { setIsAuthenticated(false); }
       setTimeout(() => {
-        setIsAuthenticated(false); // Başlangıçta giriş yapılmamış olarak ayarla
-      }, 1000); // 1 saniyelik yapay yükleme süresi
+        setIsAuthenticated(false); 
+      }, 1000); 
     };
     checkAuthStatus();
   }, []);
 
-  // LoginScreen'den çağrılacak fonksiyon (şimdilik App.tsx içinde)
-  // Daha sonra bunu bir AuthContext ile yöneteceğiz
   const handleLoginSuccess = () => {
+    console.log('Giriş başarılı, isAuthenticated true olarak ayarlanıyor.');
     setIsAuthenticated(true);
+    // TODO: Token'ı burada AsyncStorage'a kaydet
   };
 
-  // HomeScreen'den çağrılacak fonksiyon (şimdilik App.tsx içinde)
-  const handleLogout = () => {
+  const handleLogout = () => { // Bu fonksiyonu MainAppNavigator'a prop olarak geçebiliriz
     setIsAuthenticated(false);
+    // TODO: Token'ı AsyncStorage'dan sil
   };
-
 
   if (isAuthenticated === null) {
-    // Giriş durumu henüz kontrol ediliyor, bir yükleme göstergesi göster
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" />
@@ -51,9 +39,9 @@ const App: React.FC = () => {
   return (
     <NavigationContainer>
       {isAuthenticated ? (
-        <MainAppNavigator /* onLogout={handleLogout} // Prop olarak geçilebilir */ />
+        <MainAppNavigator /* onLogout={handleLogout} */ />
       ) : (
-        <AuthNavigator /* onLoginSuccess={handleLoginSuccess} // Prop olarak geçilebilir */ />
+        <AuthNavigator onLoginSuccess={handleLoginSuccess} />
       )}
     </NavigationContainer>
   );
