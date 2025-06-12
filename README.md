@@ -1,1 +1,1 @@
-This is a  [**React Native**](https://reactnative.dev) 
+This is [**React Native**](https://reactnative.dev) 
