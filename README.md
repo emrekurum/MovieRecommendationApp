@@ -1,81 +1,81 @@
 # 🎬 Movie Recommendation App
 
-Modern bir React Native (Expo) mobil uygulaması ve Node.js/Express backend ile film zevki analizi ve öneri sistemi.
+A modern React Native (Expo) mobile application with Node.js/Express backend for movie taste analysis and recommendation system.
 
-## 📋 İçindekiler
+## 📋 Table of Contents
 
-- [Özellikler](#-özellikler)
-- [Teknoloji Stack](#-teknoloji-stack)
-- [Gereksinimler](#-gereksinimler)
-- [Kurulum](#-kurulum)
-- [Yapılandırma](#-yapılandırma)
-- [Kullanım](#-kullanım)
-- [API Dokümantasyonu](#-api-dokümantasyonu)
-- [Veritabanı Şeması](#-veritabanı-şeması)
-- [Geliştirme](#-geliştirme)
-- [Sorun Giderme](#-sorun-giderme)
-- [Lisans](#-lisans)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Usage](#-usage)
+- [API Documentation](#-api-documentation)
+- [Database Schema](#-database-schema)
+- [Development](#-development)
+- [Troubleshooting](#-troubleshooting)
+- [License](#-license)
 
-## ✨ Özellikler
+## ✨ Features
 
 ### Frontend (React Native + Expo)
-- ✅ **Kullanıcı Kimlik Doğrulama**: Güvenli kayıt ve giriş sistemi
-- ✅ **Film Zevki Testi**: İnteraktif quiz ile kullanıcı tercihlerini analiz etme
-- ✅ **Profil Yönetimi**: Otomatik oluşturulan film zevki profili
-- ✅ **Token Tabanlı Güvenlik**: JWT ile korumalı API çağrıları
-- ✅ **Offline Destek**: AsyncStorage ile oturum kalıcılığı
-- ✅ **Expo Go Desteği**: QR kod ile hızlı test ve geliştirme
+- ✅ **User Authentication**: Secure registration and login system
+- ✅ **Movie Taste Quiz**: Interactive quiz to analyze user preferences
+- ✅ **Profile Management**: Automatically generated movie taste profile
+- ✅ **Token-Based Security**: JWT-protected API calls
+- ✅ **Offline Support**: Session persistence with AsyncStorage
+- ✅ **Expo Go Support**: Quick testing and development via QR code
 
 ### Backend (Node.js + Express)
-- ✅ **RESTful API**: Modern ve ölçeklenebilir API yapısı
-- ✅ **JWT Authentication**: Güvenli token tabanlı kimlik doğrulama
-- ✅ **PostgreSQL Entegrasyonu**: Güçlü ve güvenilir veritabanı
-- ✅ **CORS Desteği**: Cross-origin istekler için yapılandırma
-- ✅ **Transaction Yönetimi**: Veri bütünlüğü için transaction desteği
-- ✅ **Profil Analizi**: Otomatik film zevki profili hesaplama
+- ✅ **RESTful API**: Modern and scalable API architecture
+- ✅ **JWT Authentication**: Secure token-based authentication
+- ✅ **PostgreSQL Integration**: Robust and reliable database
+- ✅ **CORS Support**: Cross-origin request configuration
+- ✅ **Transaction Management**: Transaction support for data integrity
+- ✅ **Profile Analysis**: Automatic movie taste profile calculation
 
-## 🛠 Teknoloji Stack
+## 🛠 Tech Stack
 
 ### Frontend
 - **React Native** 0.74.3
 - **Expo SDK** 51
 - **TypeScript** 5.0.4
 - **React Navigation** 7.x
-- **AsyncStorage** - Yerel depolama
-- **Expo Constants** - Ortam değişkenleri
+- **AsyncStorage** - Local storage
+- **Expo Constants** - Environment variables
 
 ### Backend
 - **Node.js** 18+
 - **Express** 5.1.0
-- **PostgreSQL** - Veritabanı
-- **JWT** (jsonwebtoken) - Token tabanlı kimlik doğrulama
-- **bcryptjs** - Şifre hashleme
-- **CORS** - Cross-origin desteği
+- **PostgreSQL** - Database
+- **JWT** (jsonwebtoken) - Token-based authentication
+- **bcryptjs** - Password hashing
+- **CORS** - Cross-origin support
 
-## 📦 Gereksinimler
+## 📦 Requirements
 
-- **Node.js** 18 veya üzeri
-- **npm** 9+ veya **yarn**
-- **PostgreSQL** 12+ (yerel veya uzak)
-- **Expo Go** uygulaması (mobil cihazda test için)
-- **Git** (versiyon kontrolü için)
+- **Node.js** 18 or higher
+- **npm** 9+ or **yarn**
+- **PostgreSQL** 12+ (local or remote)
+- **Expo Go** app (for mobile device testing)
+- **Git** (for version control)
 
-## 🚀 Kurulum
+## 🚀 Installation
 
-### 1. Repository'yi Klonlayın
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/emrekurum/MovieRecommendationApp.git
 cd MovieRecommendationApp
 ```
 
-### 2. Frontend Bağımlılıklarını Yükleyin
+### 2. Install Frontend Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Backend Bağımlılıklarını Yükleyin
+### 3. Install Backend Dependencies
 
 ```bash
 cd MovieRecommendationApp-Backend
@@ -83,63 +83,63 @@ npm install
 cd ..
 ```
 
-### 4. Veritabanını Oluşturun
+### 4. Create the Database
 
-PostgreSQL'de yeni bir veritabanı oluşturun:
+Create a new database in PostgreSQL:
 
 ```sql
 CREATE DATABASE movierecommendation;
 ```
 
-Şemayı uygulayın:
+Apply the schema:
 
 ```bash
 psql -U postgres -d movierecommendation -f MovieRecommendationApp-Backend/database/schema.sql
 ```
 
-Veya PostgreSQL client'ınızla `schema.sql` dosyasını çalıştırın.
+Or run the `schema.sql` file using your PostgreSQL client.
 
-## ⚙️ Yapılandırma
+## ⚙️ Configuration
 
-### Backend Yapılandırması
+### Backend Configuration
 
-`MovieRecommendationApp-Backend` dizininde `.env` dosyası oluşturun:
+Create a `.env` file in the `MovieRecommendationApp-Backend` directory:
 
 ```bash
 cd MovieRecommendationApp-Backend
 cp .env.example .env
 ```
 
-`.env` dosyasını düzenleyin:
+Edit the `.env` file:
 
 ```env
-# PostgreSQL Veritabanı Ayarları
+# PostgreSQL Database Settings
 DB_USER=postgres
 DB_PASSWORD=your_password_here
 DB_HOST=localhost
 DB_PORT=5432
 DB_DATABASE=movierecommendation
 
-# Sunucu Portu
+# Server Port
 PORT=3001
 
-# JWT Gizli Anahtarı (Güçlü bir anahtar kullanın!)
+# JWT Secret Key (Use a strong key!)
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 ```
 
-**⚠️ Önemli**: Production ortamında `JWT_SECRET` için güçlü ve rastgele bir anahtar kullanın!
+**⚠️ Important**: Use a strong and random key for `JWT_SECRET` in production!
 
-### Frontend Yapılandırması
+### Frontend Configuration
 
-#### Yerel Geliştirme (Emülatör/Simülatör)
+#### Local Development (Emulator/Simulator)
 
-Varsayılan olarak:
-- **iOS Simülatör**: `http://localhost:3001`
-- **Android Emülatör**: `http://10.0.2.2:3001`
+By default:
+- **iOS Simulator**: `http://localhost:3001`
+- **Android Emulator**: `http://10.0.2.2:3001`
 
-#### Fiziksel Cihaz veya LAN Üzerinden
+#### Physical Device or Over LAN
 
-Backend sunucusunun çalıştığı makinenin yerel IP adresini bulun:
+Find the local IP address of the machine running the backend server:
 
 **Windows:**
 ```bash
@@ -149,114 +149,114 @@ ipconfig
 **macOS/Linux:**
 ```bash
 ifconfig
-# veya
+# or
 ip addr
 ```
 
-Ardından Expo'yu başlatırken ortam değişkenini ayarlayın:
+Then set the environment variable when starting Expo:
 
 ```bash
 EXPO_PUBLIC_API_URL=http://192.168.1.100:3001 npm start
 ```
 
-Veya `.env` dosyası oluşturun (root dizinde):
+Or create a `.env` file (in the root directory):
 
 ```env
 EXPO_PUBLIC_API_URL=http://192.168.1.100:3001
 ```
 
-**Not**: Mobil cihaz ve bilgisayar aynı Wi-Fi ağında olmalıdır.
+**Note**: Mobile device and computer must be on the same Wi-Fi network.
 
-## 🎯 Kullanım
+## 🎯 Usage
 
-### Backend'i Başlatma
+### Starting the Backend
 
 ```bash
 cd MovieRecommendationApp-Backend
-npm run dev  # Geliştirme modu (nodemon ile otomatik yeniden başlatma)
-# veya
-npm start    # Production modu
+npm run dev  # Development mode (auto-restart with nodemon)
+# or
+npm start    # Production mode
 ```
 
-Backend başarıyla çalışıyorsa şu mesajı göreceksiniz:
+If the backend is running successfully, you'll see:
 ```
-Backend sunucusu http://localhost:3001 adresinde çalışıyor.
-PostgreSQL veritabanına başarıyla bağlanıldı.
+Backend server running at http://localhost:3001
+Successfully connected to PostgreSQL database.
 ```
 
-### Frontend'i Başlatma
+### Starting the Frontend
 
 ```bash
 npm start
 ```
 
-Expo CLI başlatıldığında:
-1. Terminal'de bir QR kod görünecek
-2. **Expo Go** uygulamasını mobil cihazınızda açın
-3. QR kodu tarayın
-4. Uygulama yüklenecek ve çalışacak
+When Expo CLI starts:
+1. A QR code will appear in the terminal
+2. Open the **Expo Go** app on your mobile device
+3. Scan the QR code
+4. The app will load and run
 
-**Alternatif Yöntemler:**
-- `npm run android` - Android emülatörde aç
-- `npm run ios` - iOS simülatörde aç (sadece macOS)
-- `npm run web` - Web tarayıcıda aç
+**Alternative Methods:**
+- `npm run android` - Open in Android emulator
+- `npm run ios` - Open in iOS simulator (macOS only)
+- `npm run web` - Open in web browser
 
-### Uygulama Akışı
+### Application Flow
 
-1. **Kayıt Ol**: Yeni kullanıcı hesabı oluşturun
-2. **Giriş Yap**: Oluşturduğunuz hesap ile giriş yapın
-3. **Quiz Çöz**: Film zevki testini tamamlayın
-4. **Profil Görüntüle**: Otomatik oluşturulan profilinizi görün
+1. **Register**: Create a new user account
+2. **Login**: Sign in with your created account
+3. **Take Quiz**: Complete the movie taste test
+4. **View Profile**: See your automatically generated profile
 
-## 📡 API Dokümantasyonu
+## 📡 API Documentation
 
 ### Authentication Endpoints
 
 #### `POST /api/auth/register`
-Yeni kullanıcı kaydı.
+Register a new user.
 
 **Request Body:**
 ```json
 {
-  "username": "kullanici_adi",
-  "email": "email@example.com",
-  "password": "sifre123"
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "password123"
 }
 ```
 
 **Response (201):**
 ```json
 {
-  "message": "Kullanıcı başarıyla kaydedildi!",
+  "message": "User successfully registered!",
   "user": {
     "user_id": 1,
-    "username": "kullanici_adi",
-    "email": "email@example.com",
+    "username": "john_doe",
+    "email": "john@example.com",
     "created_at": "2024-01-01T00:00:00.000Z"
   }
 }
 ```
 
 #### `POST /api/auth/login`
-Kullanıcı girişi.
+User login.
 
 **Request Body:**
 ```json
 {
-  "email": "email@example.com",
-  "password": "sifre123"
+  "email": "john@example.com",
+  "password": "password123"
 }
 ```
 
 **Response (200):**
 ```json
 {
-  "message": "Giriş başarılı!",
+  "message": "Login successful!",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "user": {
     "user_id": 1,
-    "username": "kullanici_adi",
-    "email": "email@example.com"
+    "username": "john_doe",
+    "email": "john@example.com"
   }
 }
 ```
@@ -264,11 +264,11 @@ Kullanıcı girişi.
 ### Quiz Endpoints
 
 #### `GET /api/quiz/questions`
-Quiz sorularını getirir. (Token opsiyonel)
+Get quiz questions. (Token optional)
 
 **Headers:**
 ```
-Authorization: Bearer <token>  (Opsiyonel)
+Authorization: Bearer <token>  (Optional)
 ```
 
 **Response (200):**
@@ -276,12 +276,12 @@ Authorization: Bearer <token>  (Opsiyonel)
 [
   {
     "questionId": 1,
-    "questionText": "Hangi tür filmleri tercih edersiniz?",
+    "questionText": "What type of movies do you prefer?",
     "questionOrder": 1,
     "answers": [
       {
         "answerId": 1,
-        "answerText": "Aksiyon"
+        "answerText": "Action"
       },
       {
         "answerId": 2,
@@ -293,7 +293,7 @@ Authorization: Bearer <token>  (Opsiyonel)
 ```
 
 #### `POST /api/quiz/submit`
-Quiz cevaplarını gönderir ve kullanıcı profilini günceller. (Token gerekli)
+Submit quiz answers and update user profile. (Token required)
 
 **Headers:**
 ```
@@ -319,22 +319,22 @@ Authorization: Bearer <token>
 **Response (200):**
 ```json
 {
-  "message": "Quiz cevapları başarıyla gönderildi ve profiliniz güncellendi!",
+  "message": "Quiz answers successfully submitted and your profile has been updated!",
   "profile": {
-    "summary": "Film zevkiniz genellikle şunları içeriyor: action, thriller, adventure.",
+    "summary": "Your movie taste generally includes: action, thriller, adventure.",
     "tags": ["action", "thriller", "adventure", "drama", "emotional"]
   },
   "user": {
     "user_id": 1,
-    "username": "kullanici_adi",
-    "email": "email@example.com"
+    "username": "john_doe",
+    "email": "john@example.com"
   }
 }
 ```
 
-## 🗄️ Veritabanı Şeması
+## 🗄️ Database Schema
 
-### Tablolar
+### Tables
 
 #### `Users`
 - `user_id` (SERIAL PRIMARY KEY)
@@ -365,119 +365,119 @@ Authorization: Bearer <token>
 - `submitted_at` (TIMESTAMP)
 - PRIMARY KEY (user_id, question_id)
 
-Detaylı şema için `MovieRecommendationApp-Backend/database/schema.sql` dosyasına bakın.
+See `MovieRecommendationApp-Backend/database/schema.sql` for detailed schema.
 
-## 🔧 Geliştirme
+## 🔧 Development
 
-### Proje Yapısı
+### Project Structure
 
 ```
 MovieRecommendationApp/
 ├── src/
-│   ├── components/          # Yeniden kullanılabilir bileşenler
-│   ├── config/              # Yapılandırma dosyaları
-│   │   └── apiConfig.ts     # API URL yapılandırması
-│   ├── context/             # React Context'ler
-│   │   └── AuthContext.tsx  # Kimlik doğrulama context'i
-│   ├── navigation/          # Navigasyon yapılandırması
+│   ├── components/          # Reusable components
+│   ├── config/              # Configuration files
+│   │   └── apiConfig.ts     # API URL configuration
+│   ├── context/             # React Contexts
+│   │   └── AuthContext.tsx  # Authentication context
+│   ├── navigation/          # Navigation configuration
 │   │   ├── AuthNavigator.tsx
 │   │   └── MainAppNavigator.tsx
-│   ├── screens/             # Ekran bileşenleri
+│   ├── screens/             # Screen components
 │   │   ├── Auth/
 │   │   │   ├── LoginScreen.tsx
 │   │   │   └── RegisterScreen.tsx
 │   │   └── Main/
 │   │       ├── HomeScreen.tsx
 │   │       └── QuizScreen.tsx
-│   └── services/            # API servisleri
+│   └── services/            # API services
 │       ├── authService.ts
 │       ├── quizService.ts
 │       └── httpClient.ts
 ├── MovieRecommendationApp-Backend/
 │   ├── src/
 │   │   ├── config/
-│   │   │   └── db.js        # Veritabanı bağlantısı
+│   │   │   └── db.js        # Database connection
 │   │   ├── middleware/
-│   │   │   └── authMiddleware.js  # JWT doğrulama
+│   │   │   └── authMiddleware.js  # JWT verification
 │   │   └── routes/
 │   │       ├── authRoutes.js
 │   │       └── quizRoutes.js
 │   ├── database/
-│   │   └── schema.sql       # Veritabanı şeması
-│   └── server.js            # Express sunucusu
-├── App.tsx                  # Ana uygulama bileşeni
-├── app.json                 # Expo yapılandırması
+│   │   └── schema.sql       # Database schema
+│   └── server.js            # Express server
+├── App.tsx                  # Main application component
+├── app.json                 # Expo configuration
 └── package.json
 ```
 
-### Kod Standartları
+### Code Standards
 
-- **TypeScript**: Tüm frontend kodları TypeScript ile yazılmıştır
-- **ESLint**: Kod kalitesi için ESLint kullanılmaktadır
-- **Async/Await**: Promise'ler için async/await tercih edilir
-- **Error Handling**: Tüm API çağrıları try-catch ile korunur
+- **TypeScript**: All frontend code is written in TypeScript
+- **ESLint**: ESLint is used for code quality
+- **Async/Await**: async/await is preferred for promises
+- **Error Handling**: All API calls are protected with try-catch
 
-### Yeni Özellik Ekleme
+### Adding New Features
 
-1. **Yeni Ekran**: `src/screens/` altında yeni bir klasör oluşturun
-2. **Navigasyon**: `src/navigation/` içinde route ekleyin
-3. **API Endpoint**: Backend'de yeni route oluşturun
-4. **Service**: Frontend'de yeni servis fonksiyonu ekleyin
+1. **New Screen**: Create a new folder under `src/screens/`
+2. **Navigation**: Add route in `src/navigation/`
+3. **API Endpoint**: Create new route in backend
+4. **Service**: Add new service function in frontend
 
-## 🐛 Sorun Giderme
+## 🐛 Troubleshooting
 
-### Backend Bağlantı Sorunları
+### Backend Connection Issues
 
-**Problem**: PostgreSQL bağlantı hatası
+**Problem**: PostgreSQL connection error
 ```
-Çözüm: .env dosyasındaki veritabanı bilgilerini kontrol edin. PostgreSQL servisinin çalıştığından emin olun.
-```
-
-**Problem**: Port zaten kullanımda
-```
-Çözüm: .env dosyasında PORT değerini değiştirin veya kullanan işlemi sonlandırın.
+Solution: Check database credentials in .env file. Ensure PostgreSQL service is running.
 ```
 
-### Frontend Bağlantı Sorunları
-
-**Problem**: API istekleri başarısız oluyor
+**Problem**: Port already in use
 ```
-Çözüm: 
-1. Backend'in çalıştığından emin olun
-2. EXPO_PUBLIC_API_URL ortam değişkenini kontrol edin
-3. Mobil cihaz ve bilgisayar aynı Wi-Fi ağında olmalı
-4. Firewall ayarlarını kontrol edin
+Solution: Change PORT value in .env file or terminate the process using the port.
 ```
 
-**Problem**: Expo Go'da uygulama açılmıyor
-```
-Çözüm:
-1. Expo Go uygulamasının güncel olduğundan emin olun
-2. npm start komutunu tekrar çalıştırın
-3. QR kodu yeniden tarayın
-4. Metro bundler'ın çalıştığından emin olun
-```
+### Frontend Connection Issues
 
-### Veritabanı Sorunları
-
-**Problem**: Tablo bulunamadı hatası
+**Problem**: API requests failing
 ```
-Çözüm: schema.sql dosyasını çalıştırarak veritabanı şemasını oluşturun.
+Solution: 
+1. Ensure backend is running
+2. Check EXPO_PUBLIC_API_URL environment variable
+3. Mobile device and computer must be on same Wi-Fi network
+4. Check firewall settings
 ```
 
-## 📝 Lisans
+**Problem**: App not opening in Expo Go
+```
+Solution:
+1. Ensure Expo Go app is up to date
+2. Run npm start again
+3. Rescan QR code
+4. Ensure Metro bundler is running
+```
 
-Bu proje MIT lisansı altında lisanslanmıştır.
+### Database Issues
 
-## 👥 Katkıda Bulunanlar
+**Problem**: Table not found error
+```
+Solution: Run schema.sql file to create database schema.
+```
 
-- **Emre Kurum** - Proje sahibi ve geliştirici
+## 📝 License
 
-## 🙏 Teşekkürler
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- React Native ve Expo topluluğuna
-- Tüm açık kaynak kütüphane geliştiricilerine
+## 👥 Contributors
+
+- **Emre Kurum** - Project owner and developer
+
+## 🙏 Acknowledgments
+
+- React Native and Expo community
+- All open-source library developers
 
 ---
 
-**Not**: Bu proje eğitim ve geliştirme amaçlıdır. Production kullanımı için ek güvenlik önlemleri alınmalıdır.
+**Note**: This project is for educational and development purposes. Additional security measures should be taken for production use.
