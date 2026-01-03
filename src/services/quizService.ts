@@ -1,5 +1,6 @@
 // src/services/quizService.ts
 import { QUIZ_API_URL } from '../config/apiConfig';
+import { jsonFetch, withAuthHeader } from './httpClient';
 
 export interface Answer {
   answerId: number;
@@ -13,21 +14,36 @@ export interface Question {
   answers: Answer[];
 }
 
-export const fetchQuizQuestions = async (): Promise<Question[]> => {
-  try {
-    const response = await fetch(`${QUIZ_API_URL}/questions`);
+export interface SubmitAnswerPayload {
+  questionId: number;
+  chosenAnswerId: number;
+}
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({
-        message: `API isteği başarısız oldu. Durum Kodu: ${response.status}`,
-      }));
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-    }
+export interface SubmitResponse {
+  message: string;
+  profile?: {
+    summary: string;
+    tags: string[];
+  };
+  user?: {
+    user_id: number;
+    username: string;
+    email: string;
+  };
+}
 
-    const data: Question[] = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Test soruları getirilirken hata oluştu:', error);
-    throw error;
-  }
-};
+export const fetchQuizQuestions = async (token?: string): Promise<Question[]> =>
+  jsonFetch<Question[]>(`${QUIZ_API_URL}/questions`, {
+    headers: withAuthHeader(token),
+  });
+
+export const submitQuizAnswers = async (
+  userId: number,
+  answers: SubmitAnswerPayload[],
+  token: string,
+): Promise<SubmitResponse> =>
+  jsonFetch<SubmitResponse>(`${QUIZ_API_URL}/submit`, {
+    method: 'POST',
+    headers: withAuthHeader(token),
+    body: { userId, answers },
+  });

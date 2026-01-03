@@ -2,9 +2,11 @@
 
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 require('./src/config/db.js'); 
 
 const app = express();
+app.use(cors()); // Tüm origin'lere izin veriliyor; istersen origin listesini daraltabilirsin
 app.use(express.json()); 
 
 // Rotaları Tanımla

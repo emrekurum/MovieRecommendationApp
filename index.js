@@ -3,8 +3,8 @@
  */
 
 
-import {AppRegistry} from 'react-native';
+import { registerRootComponent } from 'expo';
 import App from './App';
-import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => App);
+// Expo Go ve Expo CLI ile çalışabilmek için giriş noktasını registerRootComponent'e devrediyoruz.
+registerRootComponent(App);

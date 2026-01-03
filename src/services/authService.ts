@@ -1,5 +1,6 @@
 // src/services/authService.ts
 import { AUTH_API_URL } from '../config/apiConfig';
+import { jsonFetch } from './httpClient';
 
 // Kullanıcı arayüzü - Diğer servis yanıtlarında da kullanılacak
 export interface User {
@@ -38,49 +39,15 @@ export interface RegisterResponse {
 }
 
 // Kullanıcı Giriş Servisi
-export const loginUser = async (credentials: LoginCredentials): Promise<LoginResponse> => {
-  try {
-    const response = await fetch(`${AUTH_API_URL}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    });
-
-    const data: LoginResponse = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || `HTTP error! status: ${response.status}`);
-    }
-    
-    return data;
-  } catch (error: any) {
-    console.error('Giriş servisinde hata:', error.message);
-    throw new Error(error.message || 'Giriş sırasında bilinmeyen bir hata oluştu.');
-  }
-};
+export const loginUser = async (credentials: LoginCredentials): Promise<LoginResponse> =>
+  jsonFetch<LoginResponse>(`${AUTH_API_URL}/login`, {
+    method: 'POST',
+    body: credentials,
+  });
 
 // Yeni Kullanıcı Kayıt Servisi
-export const registerUser = async (credentials: RegisterCredentials): Promise<RegisterResponse> => {
-  try {
-    const response = await fetch(`${AUTH_API_URL}/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    });
-
-    const data: RegisterResponse = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || `HTTP error! status: ${response.status}`);
-    }
-    
-    return data;
-  } catch (error: any) {
-    console.error('Kayıt servisinde hata:', error.message);
-    throw new Error(error.message || 'Kayıt sırasında bilinmeyen bir hata oluştu.');
-  }
-};
+export const registerUser = async (credentials: RegisterCredentials): Promise<RegisterResponse> =>
+  jsonFetch<RegisterResponse>(`${AUTH_API_URL}/register`, {
+    method: 'POST',
+    body: credentials,
+  });

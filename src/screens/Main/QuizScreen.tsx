@@ -1,5 +1,5 @@
 // src/screens/Main/QuizScreen.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,14 @@ import {
   ScrollView,
 } from 'react-native';
 // quizService'den Question ve Answer tiplerini doğru import ettiğimizden emin olalım
-import { fetchQuizQuestions, Question, Answer as QuizServiceAnswer } from '../../services/quizService';
+import {
+  fetchQuizQuestions,
+  submitQuizAnswers,
+  Question,
+  Answer as QuizServiceAnswer,
+  SubmitAnswerPayload,
+} from '../../services/quizService';
+import { useAuth } from '../../context/AuthContext';
 
 interface UserAnswer {
   questionId: number;
@@ -30,28 +37,39 @@ const QuizScreen: React.FC = (/*props: Props*/) => { // Şimdilik props almıyor
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const userId = 1; // Placeholder
+  const { userToken, userData } = useAuth();
+
+  const ensureAuth = useCallback(() => {
+    if (!userToken || !userData?.user_id) {
+      Alert.alert('Oturum Bulunamadı', 'Lütfen yeniden giriş yapın.');
+      return false;
+    }
+    return true;
+  }, [userToken, userData]);
+
+  const loadQuestions = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      setSelectedAnswers([]);
+      setCurrentQuestionIndex(0);
+      const fetchedQuestions = await fetchQuizQuestions(userToken || undefined);
+      if (fetchedQuestions && fetchedQuestions.length > 0) {
+        setQuestions(fetchedQuestions);
+      } else {
+        setError('Hiç test sorusu bulunamadı.');
+      }
+    } catch (e: any) {
+      setError(e.message || 'Sorular yüklenirken bir sorun oluştu.');
+      Alert.alert('Hata', e.message || 'Sorular yüklenirken bir sorun oluştu.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userToken]);
 
   useEffect(() => {
-    const loadQuestions = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const fetchedQuestions = await fetchQuizQuestions();
-        if (fetchedQuestions && fetchedQuestions.length > 0) {
-          setQuestions(fetchedQuestions);
-        } else {
-          setError('Hiç test sorusu bulunamadı.');
-        }
-      } catch (e: any) {
-        setError(e.message || 'Sorular yüklenirken bir sorun oluştu.');
-        Alert.alert('Hata', e.message || 'Sorular yüklenirken bir sorun oluştu.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
     loadQuestions();
-  }, []);
+  }, [loadQuestions]);
 
   const handleAnswerSelect = (questionId: number, answerId: number) => {
     const newAnswers = selectedAnswers.filter(
@@ -84,11 +102,27 @@ const QuizScreen: React.FC = (/*props: Props*/) => { // Şimdilik props almıyor
       Alert.alert('Uyarı', `Lütfen tüm soruları cevaplayın. (${selectedAnswers.length}/${questions.length} cevaplandı)`);
       return;
     }
-    console.log('Gönderilecek Cevaplar:', { userId, answers: selectedAnswers });
-    Alert.alert(
-      'Test Tamamlandı!',
-      'Cevaplarınız kaydedildi. Sonuçlar yakında gösterilecek.',
-    );
+    if (!ensureAuth()) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const payload: SubmitAnswerPayload[] = selectedAnswers.map(ans => ({
+        questionId: ans.questionId,
+        chosenAnswerId: ans.chosenAnswerId,
+      }));
+      const response = await submitQuizAnswers(userData!.user_id, payload, userToken!);
+      Alert.alert(
+        'Test Tamamlandı!',
+        response.profile?.summary ||
+          response.message ||
+          'Cevaplarınız kaydedildi. Sonuçlar yakında gösterilecek.',
+      );
+    } catch (e: any) {
+      Alert.alert('Hata', e.message || 'Cevaplar gönderilirken bir hata oluştu.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isLoading) {
@@ -104,7 +138,7 @@ const QuizScreen: React.FC = (/*props: Props*/) => { // Şimdilik props almıyor
     return (
       <View style={styles.centered}>
         <Text style={styles.errorText}>Hata: {error}</Text>
-        <Button title="Tekrar Dene" onPress={() => { /* loadQuestions(); */ }} />
+        <Button title="Tekrar Dene" onPress={loadQuestions} />
       </View>
     );
   }

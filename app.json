@@ -1,4 +1,25 @@
 {
-  "name": "MovieRecommendationApp",
-  "displayName": "MovieRecommendationApp"
+  "expo": {
+    "name": "MovieRecommendationApp",
+    "slug": "MovieRecommendationApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "movierecommendationapp",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.movierecommendation.app"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.movierecommendation.app"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "local-placeholder"
+      }
+    }
+  }
 }
