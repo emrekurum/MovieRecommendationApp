@@ -491,8 +491,6 @@ Bu projeyi ticari olarak kullanmak veya lisanslamak isterseniz, lütfen benimle 
 
 © 2026 Emre KURUM. Tüm Hakları Saklıdır.
 
-For full legal notice, see the [LICENSE](LICENSE) file.
-
 ## 👥 Contributors
 
 - **Emre Kurum** - Project owner and developer
