@@ -465,9 +465,33 @@ Solution:
 Solution: Run schema.sql file to create database schema.
 ```
 
-## 📝 License
+## 📝 Legal Notice
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### ⚠️ Important Legal Information
+
+**English:**
+
+The source code of this project is made publicly available solely for review and educational purposes.
+
+⚠️ **Cannot be copied, distributed, or used for commercial purposes.**
+
+If you wish to use or license this project commercially, please contact me: **emrekurum07@hotmail.com**
+
+© 2026 Emre KURUM. All Rights Reserved.
+
+---
+
+**Türkçe:**
+
+Bu projenin kaynak kodu yalnızca inceleme ve eğitim amaçlı olarak kamuya açılmıştır.
+
+⚠️ **Kopyalanamaz, dağıtılamaz veya ticari amaçlarla kullanılamaz.**
+
+Bu projeyi ticari olarak kullanmak veya lisanslamak isterseniz, lütfen benimle iletişime geçin: **emrekurum07@hotmail.com**
+
+© 2026 Emre KURUM. Tüm Hakları Saklıdır.
+
+For full legal notice, see the [LICENSE](LICENSE) file.
 
 ## 👥 Contributors
 
